@@ -2,14 +2,26 @@ require('./bootstrap');
 
 require('alpinejs');
 
-// import Vue from 'vue';
+import Vue from 'vue';
+import Vuex from 'vuex';
+import LaravelAgoraModule from './vendor/laravel-agora-api/modules/LaravelAgoraModule';
+import AgoraVideoDisplay from './vendor/laravel-agora-api/components/AgoraVideoDisplay.vue';
+import AgoraUserList from './vendor/laravel-agora-api/components/AgoraUserList.vue';
+import AgoraIncomingCallAlert from './vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue';
 
-window.Vue = require('vue');
+Vue.use(Vuex);
 
-Vue.component('agora-video-display', require('./vendor/laravel-agora-api/components/AgoraVideoDisplay.vue').default);
-Vue.component('agora-user-list', require('./vendor/laravel-agora-api/components/AgoraUserList.vue').default);
-Vue.component('agora-incoming-call-alert', require('./vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue').default);
+const store = new Vuex.Store({
+    modules: {
+        agora: LaravelAgoraModule
+    }
+})
+
+Vue.component('agora-video-display', AgoraVideoDisplay);
+Vue.component('agora-user-list', AgoraUserList);
+Vue.component('agora-incoming-call-alert', AgoraIncomingCallAlert);
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store: store
 });

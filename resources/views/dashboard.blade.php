@@ -10,7 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     
-                    <div id="app"></div>
+                    <div id="app">
+                        <agora-video-display></agora-video-display>
+                        <agora-user-list></agora-user-list>
+                        <agora-incoming-call-alert></agora-incoming-call-alert>
+                    </div>
                     
                 </div>
             </div>
