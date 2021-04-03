@@ -3853,9 +3853,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+// import { mapState } from 'vuex'
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "AgoraUserList"
+  // name: "AgoraUserList",
+  computed: {// ...mapState('agora', [
+    //     'activeUsers',
+    //     'currentUser',
+    // ]),
+  },
+  mounted: function mounted() {
+    this.something();
+  },
+  methods: {
+    // ...mapMutations({
+    //     makeCall: 'agora/makeCall',
+    // }),
+    something: function something(event) {
+      console.log('testasdasdads');
+    } // ...mapActions('agora', [
+    //     'makeCall',
+    // ]),
+
+  }
 });
 
 /***/ }),
@@ -3899,12 +3921,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AgoraVideoDisplay",
   props: ['currentUserId', 'currentUserName', 'echoChannelName', 'agoraRoutePrefix', 'agoraAppId'],
   mounted: function mounted() {
-    console.log(this.$store);
     var currentUser = {};
     currentUser.id = this.currentUserId;
     currentUser.name = this.currentUserName;
@@ -4062,16 +4088,25 @@ __webpack_require__.r(__webpack_exports__);
     setEchoChannelUserListeners: function setEchoChannelUserListeners(state) {
       var _this = this;
 
+      console.log('Registering channel listeners...');
       state.echoChannel.here(function (users) {
+        console.log('Here event called.');
+        console.log(users);
+        console.log(state.activeUsers);
         state.activeUsers = users;
+        console.log(state.activeUsers);
       });
       state.echoChannel.joining(function (user) {
+        console.log('User joining.');
         var usersIndex = state.activeUsers.findIndex(function (data) {
           data.id === user.id;
         });
+        console.log(usersIndex);
 
         if (usersIndex === -1) {
+          console.log('Adding user');
           state.activeUsers.push(user);
+          console.log(state.activeUsers);
         }
       });
       state.echoChannel.leaving(function (user) {
@@ -4093,9 +4128,19 @@ __webpack_require__.r(__webpack_exports__);
           state.agoraChannelName = data.agoraChannel;
         }
       });
+    },
+    makeCall: function makeCall(recipientId) {
+      console.log('Hit!');
+      console.log(recipientId);
+      state.currentUser.name = 'Test!';
     }
   },
-  actions: {},
+  actions: {// async makeCall(recipientId) {
+    //     console.log('Hit!');
+    //     console.log(recipientId);
+    //     state.currentUser.name = 'Test!';
+    // },
+  },
   getters: {}
 });
 
@@ -27923,20 +27968,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "agora-active-users-container" }, [
-      _c("h2", { staticClass: "agora-active-users-title" }, [
-        _vm._v("Active Users")
-      ])
+  return _c("div", { staticClass: "agora-active-users-container" }, [
+    _c("h2", { staticClass: "agora-active-users-title" }, [
+      _vm._v("Active Users")
+    ]),
+    _vm._v(" "),
+    _c("div", [
+      _c(
+        "div",
+        {
+          staticStyle: { "background-color": "red" },
+          on: { click: _vm.something }
+        },
+        [_vm._v("Call")]
+      )
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -28000,6 +28049,16 @@ var render = function() {
             "button",
             { staticClass: "agora-btn-hang-up", on: { click: _vm.hangUp } },
             [_vm._v("\n            Hang Up\n        ")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _vm._v(
+            "\n        " +
+              _vm._s(_vm.transmitAudio) +
+              "\n        " +
+              _vm._s(_vm.transmitVideo) +
+              "\n    "
           )
         ])
       ])

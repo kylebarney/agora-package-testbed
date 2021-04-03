@@ -63,17 +63,25 @@ export default {
         },
 
         setEchoChannelUserListeners(state) {
+            console.log('Registering channel listeners...');
             state.echoChannel.here((users) => {
+                console.log('Here event called.');
+                console.log(users);
+                console.log(state.activeUsers);
                 state.activeUsers = users;
+                console.log(state.activeUsers);
             });
 
             state.echoChannel.joining((user) => {
+                console.log('User joining.');
                 let usersIndex = state.activeUsers.findIndex((data) => {
                     data.id === user.id;
                 });
-
+console.log(usersIndex);
                 if (usersIndex === -1) {
+                    console.log('Adding user');
                     state.activeUsers.push(user);
+                    console.log(state.activeUsers);
                 }
             });
 
@@ -98,9 +106,21 @@ export default {
                 }
             });
         },
+
+        makeCall(recipientId) {
+            console.log('Hit!');
+            console.log(recipientId);
+            state.currentUser.name = 'Test!';
+        },
     },
 
-    actions: {},
+    actions: {
+        // async makeCall(recipientId) {
+        //     console.log('Hit!');
+        //     console.log(recipientId);
+        //     state.currentUser.name = 'Test!';
+        // },
+    },
 
     getters: {}
 }
