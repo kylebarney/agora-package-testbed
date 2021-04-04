@@ -16,7 +16,7 @@
                                 <h1>Video</h1>
                                 <agora-video-display
                                     current-user-id="{{ Auth::id() }}"
-                                    current-user-name=""
+                                    current-user-name="{{ \Tipoff\LaravelAgoraApi\Services\DisplayNameService::getDisplayName(Auth::user()) }}"
                                     echo-channel-name="{{ config('agora.channel_name') }}"
                                     agora-route-prefix="{{ config('agora.routes.prefix') }}"
                                     agora-app-id="{{ config('agora.credentials.app_id') }}"
@@ -33,5 +33,5 @@
             </div>
         </div>
     </div>
-    
+
 </x-app-layout>

@@ -1,5 +1,5 @@
 <template>
-    <div class="incoming-call-alert" v-if="callIncoming">
+    <div class="incoming-call-alert" v-if="callIsIncoming">
         <div>
             <p>Incoming call from: {{ incomingCaller }}</p>
 
@@ -24,11 +24,20 @@ export default {
 
     computed: {
         ...mapState([
-            'agoraClient',
-            'callIncoming',
+            'callIsIncoming',
             'incomingCaller',
         ]),
     },
+
+    methods: {
+        acceptCall: function() {
+            console.log('Call accepted.');
+        },
+        
+        declineCall: function() {
+            console.log('Call declined.');
+        }
+    }
 }
 </script>
 

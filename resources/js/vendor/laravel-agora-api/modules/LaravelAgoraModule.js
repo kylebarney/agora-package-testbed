@@ -1,3 +1,6 @@
+import axios from 'axios';
+import AgoraRTC from 'agora-rtc-sdk';
+
 export default {
     namespaced: true,
 
@@ -10,11 +13,13 @@ export default {
         agoraClient: null,
 
         agoraRoutePrefix: '',
+        agoraAppID: null,
 
-        connected: false,
-
-        callIncoming: false,
+        callIsIncoming: false,
         incomingCaller: null,
+        callConnected: false,
+
+        stream: null,
 
         transmitAudio: false,
         transmitVideo: false,
@@ -29,23 +34,28 @@ export default {
 
     mutations: {
         setCurrentUser (state, user) {
-            state.currentUser.id = user.id;
+            state.currentUser.id = parseInt(user.id);
             state.currentUser.name = user.name;
         },
 
-        initializeAgoraClient (state, agoraId) {
+        setAgoraAppID (state, id) {
+            state.agoraAppID = id;
+        },
+
+        initializeAgoraClient (state) {
             state.agoraClient = AgoraRTC.createClient({
                 mode: "rtc",
                 codec: "h264"
             });
 
             state.agoraClient.init(
-                agoraId,
+                state.agoraAppID,
                 () => {
                     console.log("Successfully initialized AgoraRTC client.");
                 },
                 (err) => {
-                    console.log("Failed to initialize AgoraRTC client.", err);
+                    console.log("Failed to initialize AgoraRTC client.");
+                    console.log(err);
                 }
             );
         },
@@ -63,25 +73,17 @@ export default {
         },
 
         setEchoChannelUserListeners(state) {
-            console.log('Registering channel listeners...');
             state.echoChannel.here((users) => {
-                console.log('Here event called.');
-                console.log(users);
-                console.log(state.activeUsers);
                 state.activeUsers = users;
-                console.log(state.activeUsers);
             });
 
             state.echoChannel.joining((user) => {
-                console.log('User joining.');
                 let usersIndex = state.activeUsers.findIndex((data) => {
                     data.id === user.id;
                 });
-console.log(usersIndex);
+
                 if (usersIndex === -1) {
-                    console.log('Adding user');
                     state.activeUsers.push(user);
-                    console.log(state.activeUsers);
                 }
             });
 
@@ -93,33 +95,65 @@ console.log(usersIndex);
                 state.activeUsers.splice(usersIndex, 1);
             });
 
-            state.echoChannel.listen("DispatchAgoraCall", ({ data }) => {
+            state.echoChannel.listen("Tipoff\LaravelAgoraApi\Events\DispatchAgoraCall", ({ data }) => {
+                console.log('Incoming call...');
                 if (parseInt(data.recipientId) === parseInt(state.currentUser.id)) {
-                    let callerIndex = this.onlineUsers.findIndex((user) => {
-                        user.id === data.senderId
-                    });
-
-                    state.incomingCaller = this.onlineUsers[callerIndex]["name"];
-                    state.callIncoming = true;
+                    state.incomingCaller = data.senderDisplayName;
+                    state.callIsIncoming = true;
 
                     state.agoraChannelName = data.agoraChannel;
                 }
             });
         },
-
-        makeCall(recipientId) {
-            console.log('Hit!');
-            console.log(recipientId);
-            state.currentUser.name = 'Test!';
-        },
     },
 
-    actions: {
-        // async makeCall(recipientId) {
-        //     console.log('Hit!');
-        //     console.log(recipientId);
-        //     state.currentUser.name = 'Test!';
-        // },
+    actions: {        
+        async makeCall({commit, state, dispatch}, recipientId) {
+            try {
+                const channelName = `channel${state.currentUser.id}to${recipientId}`;
+                const token = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
+                    channel_name: channelName,
+                });
+
+                // Broadcasts a call event to the callee and also gets back the token
+                await axios.post("/"+ state.agoraRoutePrefix +"/place-call", {
+                    channel_name: channelName,
+                    recipient_id: recipientId,
+                });
+
+                commit('initializeAgoraClient');
+
+                dispatch('joinRoom', {
+                    token: token.data,
+                    channel: channelName
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        },
+
+        joinRoom({commit, state, dispatch}, {token, channel}) {
+            console.log('Joining Agora room...');
+            console.log(state);
+            console.log(token);
+            console.log(channel);
+            state.agoraClient.join(
+                token,
+                channel,
+                state.currentUser.id,
+                (uid) => {
+                    console.log(`User ${uid} joined Agora channel successfully.`);
+                    state.callConnected = true;
+
+                    // commit('createLocalStream');
+                    // commit('initializeAgoraListeners');
+                },
+                (err) => {
+                    console.log("Failed to join channel.");
+                    console.log(err);
+                }
+            );
+        },
     },
 
     getters: {}

@@ -1,40 +1,32 @@
 <template>
     <div class="agora-active-users-container">
         <h2 class="agora-active-users-title">Active Users</h2>
-        <div>
-            <div @click="something" style="background-color: red;">Call</div>
-        </div>
+        <template v-for="user in activeUsers">
+            <div v-bind:key="user.id" v-if="user.id !== currentUser.id" class="agora-active-user-details">
+                {{ user.name }}
+                <button @click="makeCall(user.id)" class="agora-btn agora-success-btn agora-call-user-button">Call</button>
+            </div>
+        </template>
     </div>
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
-    // name: "AgoraUserList",
+    name: "AgoraUserList",
 
     computed: {
-        // ...mapState('agora', [
-        //     'activeUsers',
-        //     'currentUser',
-        // ]),
-    },
-
-    mounted() {
-        this.something();
+        ...mapState('agora', [
+            'activeUsers',
+            'currentUser',
+        ]),
     },
 
     methods: {
-        // ...mapMutations({
-        //     makeCall: 'agora/makeCall',
-        // }),
-
-        something: function(event) {
-            console.log('testasdasdads');
-        }
-        // ...mapActions('agora', [
-        //     'makeCall',
-        // ]),
+        ...mapActions('agora', [
+            'makeCall',
+        ]),
     }
 }
 </script>
