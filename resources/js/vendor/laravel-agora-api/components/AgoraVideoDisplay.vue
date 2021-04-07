@@ -1,7 +1,7 @@
 <template>
-    <div id="video-container" v-if="callConnected">
-        <div id="local-video"></div>
-        <div id="remote-video"></div>
+    <div id="video-container">
+        <div id="local-video" style="width: 100%;"></div>
+        <div id="remote-video" style="width: 640px; height: 480px;"></div>
 
         <div class="agora-call-action-btns">
             <button class="agora-btn-toggle-audio" @click="toggleAudio">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
     name: "AgoraVideoDisplay",
@@ -51,22 +51,36 @@ export default {
         this.joinEchoChannel();
 
         this.setEchoChannelUserListeners();
+
+        this.initializeAgoraClient();
     },
 
     methods: {
         ...mapMutations({
             setCurrentUser: 'agora/setCurrentUser',
-            initializeAgoraClient: 'agora/initializeAgoraClient',
             setAgoraAppID: 'agora/setAgoraAppID',
             setAgoraRoutePrefix: 'agora/setAgoraRoutePrefix',
             setEchoChannelName: 'agora/setEchoChannelName',
             joinEchoChannel: 'agora/joinEchoChannel',
-            setEchoChannelUserListeners: 'agora/setEchoChannelUserListeners',
         }),
+        ...mapActions('agora', [
+            'initializeAgoraClient',
+            'initializeAudioAndVideoTracks',
+            'setEchoChannelUserListeners',
+            'hangUp',
+        ]),
+
+        toggleAudio: function() {
+            console.log('clicked!');
+        },
+
+        toggleVideo: function() {
+            console.log('clicked!');
+        },
     },
 
     computed: {
-        ...mapState([
+        ...mapState('agora', [
             'callConnected',
             'transmitAudio',
             'transmitVideo',

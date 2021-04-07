@@ -23,7 +23,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "agora-rtc-sdk": "^3.4.0",
+        "agora-rtc-sdk-ng": "^4.4.0",
         "laravel-echo": "^1.10.0",
         "pusher-js": "^7.0.3",
         "vue": "^2.6.12",

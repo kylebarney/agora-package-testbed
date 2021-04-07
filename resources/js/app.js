@@ -1,7 +1,5 @@
 require('./bootstrap');
 
-require('alpinejs');
-
 import Vue from 'vue';
 import Vuex from 'vuex';
 import LaravelAgoraModule from './vendor/laravel-agora-api/modules/LaravelAgoraModule';
