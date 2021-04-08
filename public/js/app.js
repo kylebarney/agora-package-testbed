@@ -3061,6 +3061,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AgoraVideoDisplay",
@@ -3077,20 +3078,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.setEchoChannelUserListeners();
     this.initializeAgoraClient();
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)({
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)({
     setCurrentUser: 'agora/setCurrentUser',
     setAgoraAppID: 'agora/setAgoraAppID',
     setAgoraRoutePrefix: 'agora/setAgoraRoutePrefix',
     setEchoChannelName: 'agora/setEchoChannelName',
     joinEchoChannel: 'agora/joinEchoChannel'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('agora', ['initializeAgoraClient', 'initializeAudioAndVideoTracks', 'setEchoChannelUserListeners', 'hangUp'])), {}, {
-    toggleAudio: function toggleAudio() {
-      console.log('clicked!');
-    },
-    toggleVideo: function toggleVideo() {
-      console.log('clicked!');
-    }
-  }),
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('agora', ['initializeAgoraClient', 'initializeAudioAndVideoTracks', 'setEchoChannelUserListeners', 'muteAudio', 'unmuteAudio', 'hideVideo', 'streamVideo', 'hangUp'])),
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)('agora', ['callConnected', 'transmitAudio', 'transmitVideo']))
 });
 
@@ -3231,7 +3225,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       activeUsers: [],
       echoChannelName: '',
       echoChannel: null,
-      agoraChannelName: ''
+      agoraChannelName: '',
+      agoraToken: ''
     };
   },
   mutations: {
@@ -3245,11 +3240,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setAgoraRoutePrefix: function setAgoraRoutePrefix(state, prefix) {
       state.agoraRoutePrefix = prefix;
     },
+    setAgoraChannel: function setAgoraChannel(state, name) {
+      state.agoraChannelName = name;
+    },
+    setAgoraToken: function setAgoraToken(state, token) {
+      state.agoraToken = token;
+    },
     setEchoChannelName: function setEchoChannelName(state, name) {
       state.echoChannelName = name;
     },
     joinEchoChannel: function joinEchoChannel(state) {
       state.echoChannel = window.Echo.join(state.echoChannelName);
+    },
+    setTransmitAudio: function setTransmitAudio(state, newState) {
+      state.transmitAudio = newState;
+    },
+    setTransmitVideo: function setTransmitVideo(state, newState) {
+      state.transmitVideo = newState;
+    },
+    setCallConnected: function setCallConnected(state, newState) {
+      state.callConnected = newState;
     }
   },
   actions: {
@@ -3309,8 +3319,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 state.rtc.client.on("user-unpublished", function (user) {
                   // Get the dynamically created DIV container.
                   var playerContainer = document.getElementById('remote-video'); // Destroy the container.
-
-                  playerContainer.remove(); // Need to recreate it in case they make another call.
+                  // playerContainer.remove();
+                  // Need to recreate it in case they make another call.
                   //
                 });
 
@@ -3350,34 +3360,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
                 state.echoChannel.listen(".Tipoff\\LaravelAgoraApi\\Events\\DispatchAgoraCall", /*#__PURE__*/function () {
                   var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(data) {
-                    var uid;
+                    var resp;
                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
                       while (1) {
                         switch (_context3.prev = _context3.next) {
                           case 0:
-                            console.log('Incoming call...');
-                            console.log(data);
-
                             if (!(parseInt(data.recipientId) === parseInt(state.currentUser.id))) {
-                              _context3.next = 11;
+                              _context3.next = 10;
                               break;
                             }
 
-                            console.log('Joining call...');
                             state.incomingCaller = data.senderDisplayName;
                             state.callIsIncoming = true;
-                            state.agoraChannelName = data.agoraChannel; // const token = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
-                            //     channel_name: state.agoraChannelName,
-                            // });
+                            state.agoraChannelName = data.agoraChannel;
+                            commit('setCallConnected', true);
+                            _context3.next = 7;
+                            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/retrieve-token", {
+                              channel_name: state.agoraChannelName
+                            });
 
-                            _context3.next = 9;
-                            return state.rtc.client.join(state.agoraAppID, state.agoraChannelName, '0069ae7906e6a2443999311cb0baa67d37dIABCPxtYeQWPnVspUWZZYYanrXYm2oUg4ZKvwqrDA1FYrLf8QJ4AAAAAEAAeXT+chkhsYAEAAQCGSGxg', state.currentUser.id);
+                          case 7:
+                            resp = _context3.sent;
+                            commit('setAgoraToken', resp.data.token);
+                            dispatch('joinAgoraChannel');
 
-                          case 9:
-                            uid = _context3.sent;
-                            dispatch('initializeAudioAndVideoTracks');
-
-                          case 11:
+                          case 10:
                           case "end":
                             return _context3.stop();
                         }
@@ -3398,30 +3405,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    initializeAudioAndVideoTracks: function initializeAudioAndVideoTracks(_ref5) {
+    makeCall: function makeCall(_ref5, recipientId) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var commit, state, dispatch, _yield$AgoraRTC$creat, _yield$AgoraRTC$creat2;
-
+        var commit, state, dispatch, resp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 commit = _ref5.commit, state = _ref5.state, dispatch = _ref5.dispatch;
-                _context5.next = 3;
-                return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_2___default().createMicrophoneAndCameraTracks();
+                // state.rtc.client.setClientRole("host");
+                state.agoraChannelName = "channel".concat(state.currentUser.id, "to").concat(recipientId);
+                _context5.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/retrieve-token", {
+                  channel_name: state.agoraChannelName
+                });
 
-              case 3:
-                _yield$AgoraRTC$creat = _context5.sent;
-                _yield$AgoraRTC$creat2 = _slicedToArray(_yield$AgoraRTC$creat, 2);
-                state.rtc.localAudioTrack = _yield$AgoraRTC$creat2[0];
-                state.rtc.localVideoTrack = _yield$AgoraRTC$creat2[1];
-                _context5.next = 9;
-                return state.rtc.client.publish([state.rtc.localAudioTrack, state.rtc.localVideoTrack]);
+              case 4:
+                resp = _context5.sent;
+                commit('setAgoraToken', resp.data.token); // Broadcasts a call event to the callee.
+
+                _context5.next = 8;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/place-call", {
+                  channel_name: state.agoraChannelName,
+                  recipient_id: recipientId
+                });
+
+              case 8:
+                dispatch('joinAgoraChannel');
 
               case 9:
-                console.log('Local audio and video published.');
-
-              case 10:
               case "end":
                 return _context5.stop();
             }
@@ -3429,37 +3441,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    makeCall: function makeCall(_ref6, recipientId) {
+    joinAgoraChannel: function joinAgoraChannel(_ref6) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        var commit, state, dispatch, channelName, uid;
+        var commit, state, dispatch, _yield$AgoraRTC$creat, _yield$AgoraRTC$creat2;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 commit = _ref6.commit, state = _ref6.state, dispatch = _ref6.dispatch;
-                // state.rtc.client.setClientRole("host");
-                // const channelName = `channel${state.currentUser.id}to${recipientId}`;
-                channelName = 'some-great-channel'; //             const token = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
-                //                 channel_name: channelName,
-                //             });
-                // console.log(token);
-                // Broadcasts a call event to the callee.
+                _context6.next = 3;
+                return state.rtc.client.join(state.agoraAppID, state.agoraChannelName, state.agoraToken, state.currentUser.id);
 
-                _context6.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/place-call", {
-                  channel_name: channelName,
-                  recipient_id: recipientId
-                });
+              case 3:
+                _context6.next = 5;
+                return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_2___default().createMicrophoneAndCameraTracks();
 
-              case 4:
-                _context6.next = 6;
-                return state.rtc.client.join(state.agoraAppID, channelName, '0069ae7906e6a2443999311cb0baa67d37dIABCPxtYeQWPnVspUWZZYYanrXYm2oUg4ZKvwqrDA1FYrLf8QJ4AAAAAEAAeXT+chkhsYAEAAQCGSGxg', state.currentUser.id);
+              case 5:
+                _yield$AgoraRTC$creat = _context6.sent;
+                _yield$AgoraRTC$creat2 = _slicedToArray(_yield$AgoraRTC$creat, 2);
+                state.rtc.localAudioTrack = _yield$AgoraRTC$creat2[0];
+                state.rtc.localVideoTrack = _yield$AgoraRTC$creat2[1];
+                _context6.next = 11;
+                return state.rtc.client.publish([state.rtc.localAudioTrack, state.rtc.localVideoTrack]);
 
-              case 6:
-                uid = _context6.sent;
-                dispatch('initializeAudioAndVideoTracks');
+              case 11:
+                commit('setTransmitAudio', true);
+                commit('setTransmitVideo', true);
+                commit('setCallConnected', true);
 
-              case 8:
+              case 14:
               case "end":
                 return _context6.stop();
             }
@@ -3467,17 +3478,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee6);
       }))();
     },
-    joinAgoraChannel: function joinAgoraChannel(_ref7, _ref8) {
+    hangUp: function hangUp(_ref7) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
-        var commit, state, dispatch, token, channel;
+        var commit, state, dispatch;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
                 commit = _ref7.commit, state = _ref7.state, dispatch = _ref7.dispatch;
-                token = _ref8.token, channel = _ref8.channel;
+                // Destroy the local audio and video tracks.
+                state.rtc.localAudioTrack.close();
+                state.rtc.localVideoTrack.close(); // Traverse all remote users.
+                // state.rtc.client.remoteUsers.forEach(user => {
+                //     const playerContainer = document.getElementById('remote-video');
+                //     playerContainer && playerContainer.remove();
+                // });
+                // Leave the channel.
 
-              case 2:
+                _context7.next = 5;
+                return state.rtc.client.leave();
+
+              case 5:
               case "end":
                 return _context7.stop();
             }
@@ -3485,33 +3506,92 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee7);
       }))();
     },
-    hangUp: function hangUp(_ref9) {
+    muteAudio: function muteAudio(_ref8) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
-        var commit, state, dispatch;
+        var commit, state;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                commit = _ref9.commit, state = _ref9.state, dispatch = _ref9.dispatch;
-                // Destroy the local audio and video tracks.
-                state.rtc.localAudioTrack.close();
-                state.rtc.localVideoTrack.close(); // Traverse all remote users.
+                commit = _ref8.commit, state = _ref8.state;
+                _context8.next = 3;
+                return state.rtc.localAudioTrack.setEnabled(false);
 
-                state.rtc.client.remoteUsers.forEach(function (user) {
-                  // Destroy the dynamically created DIV container.
-                  var playerContainer = document.getElementById('remote-video');
-                  playerContainer && playerContainer.remove();
-                }); // Leave the channel.
+              case 3:
+                commit('setTransmitAudio', false);
 
-                _context8.next = 6;
-                return state.rtc.client.leave();
-
-              case 6:
+              case 4:
               case "end":
                 return _context8.stop();
             }
           }
         }, _callee8);
+      }))();
+    },
+    unmuteAudio: function unmuteAudio(_ref9) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                commit = _ref9.commit, state = _ref9.state;
+                _context9.next = 3;
+                return state.rtc.localAudioTrack.setEnabled(true);
+
+              case 3:
+                commit('setTransmitAudio', true);
+
+              case 4:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    hideVideo: function hideVideo(_ref10) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                commit = _ref10.commit, state = _ref10.state;
+                _context10.next = 3;
+                return state.rtc.localVideoTrack.setEnabled(false);
+
+              case 3:
+                commit('setTransmitVideo', false);
+
+              case 4:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    streamVideo: function streamVideo(_ref11) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                commit = _ref11.commit, state = _ref11.state;
+                _context11.next = 3;
+                return state.rtc.localVideoTrack.setEnabled(true);
+
+              case 3:
+                commit('setTransmitVideo', true);
+
+              case 4:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
       }))();
     }
   },
@@ -28058,7 +28138,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "agora-btn-accept",
+                staticClass: "agora-btn agora-btn-success agora-btn-accept",
                 on: { click: _vm.acceptCall }
               },
               [_vm._v("\n                Accept\n            ")]
@@ -28067,7 +28147,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "agora-btn-decline",
+                staticClass: "agora-btn agora-btn-danger agora-btn-decline",
                 on: { click: _vm.declineCall }
               },
               [_vm._v("\n                Decline\n            ")]
@@ -28122,7 +28202,7 @@ var render = function() {
                     "button",
                     {
                       staticClass:
-                        "agora-btn agora-success-btn agora-call-user-button",
+                        "agora-btn agora-btn-success agora-call-user-button",
                       on: {
                         click: function($event) {
                           return _vm.makeCall(user.id)
@@ -28172,51 +28252,60 @@ var render = function() {
     }),
     _vm._v(" "),
     _c("div", { staticClass: "agora-call-action-btns" }, [
-      _c(
-        "button",
-        {
-          staticClass: "agora-btn-toggle-audio",
-          on: { click: _vm.toggleAudio }
-        },
-        [
-          _vm._v(
-            "\n            " +
-              _vm._s(_vm.transmitAudio ? "Mute" : "Unmute") +
-              "\n        "
+      _vm.callConnected && _vm.transmitAudio
+        ? _c(
+            "button",
+            {
+              staticClass:
+                "agora-btn agora-btn-audio agora-btn-danger agora-btn-mute-audio",
+              on: { click: _vm.muteAudio }
+            },
+            [_vm._v("\n            Mute\n        ")]
           )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "agora-btn-toggle-video",
-          on: { click: _vm.toggleVideo }
-        },
-        [
-          _vm._v(
-            "\n            " +
-              _vm._s(_vm.transmitVideo ? "Hide Video" : "Show Video") +
-              "\n        "
+        : _vm.callConnected && !_vm.transmitAudio
+        ? _c(
+            "button",
+            {
+              staticClass:
+                "agora-btn agora-btn-audio agora-btn-success agora-btn-unmute-audio",
+              on: { click: _vm.unmuteAudio }
+            },
+            [_vm._v("\n            Unmute\n        ")]
           )
-        ]
-      ),
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "agora-btn-hang-up", on: { click: _vm.hangUp } },
-        [_vm._v("\n            Hang Up\n        ")]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", [
-      _vm._v(
-        "\n        " +
-          _vm._s(_vm.transmitAudio) +
-          "\n        " +
-          _vm._s(_vm.transmitVideo) +
-          "\n    "
-      )
+      _vm.callConnected && _vm.transmitVideo
+        ? _c(
+            "button",
+            {
+              staticClass:
+                "agora-btn agora-btn-video agora-btn-danger agora-btn-hide-video",
+              on: { click: _vm.hideVideo }
+            },
+            [_vm._v("\n            Hide Video\n        ")]
+          )
+        : _vm.callConnected && !_vm.transmitVideo
+        ? _c(
+            "button",
+            {
+              staticClass:
+                "agora-btn agora-btn-video agora-btn-success agora-btn-show-video",
+              on: { click: _vm.streamVideo }
+            },
+            [_vm._v("\n            Show Video\n        ")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.callConnected
+        ? _c(
+            "button",
+            {
+              staticClass: "agora-btn agora-btn-danger agora-btn-hang-up",
+              on: { click: _vm.hangUp }
+            },
+            [_vm._v("\n            Hang Up\n        ")]
+          )
+        : _vm._e()
     ])
   ])
 }

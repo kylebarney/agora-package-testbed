@@ -36,6 +36,7 @@ export default {
         echoChannel: null,
 
         agoraChannelName: '',
+        agoraToken: '',
     }),
 
     mutations: {
@@ -52,12 +53,32 @@ export default {
             state.agoraRoutePrefix = prefix;
         },
 
+        setAgoraChannel(state, name) {
+            state.agoraChannelName = name;
+        },
+
+        setAgoraToken(state, token) {
+            state.agoraToken = token;
+        },
+
         setEchoChannelName(state, name) {
             state.echoChannelName = name;
         },
 
         joinEchoChannel(state) {
             state.echoChannel = window.Echo.join(state.echoChannelName);
+        },
+
+        setTransmitAudio(state, newState) {
+            state.transmitAudio = newState;
+        },
+
+        setTransmitVideo(state, newState) {
+            state.transmitVideo = newState;
+        },
+
+        setCallConnected(state, newState) {
+            state.callConnected = newState;
         },
     },
 
@@ -93,7 +114,7 @@ export default {
                 // Get the dynamically created DIV container.
                 const playerContainer = document.getElementById('remote-video');
                 // Destroy the container.
-                playerContainer.remove();
+                // playerContainer.remove();
 
                 // Need to recreate it in case they make another call.
                 //
@@ -125,66 +146,61 @@ export default {
             });
 
             state.echoChannel.listen(".Tipoff\\LaravelAgoraApi\\Events\\DispatchAgoraCall", async (data) => {
-                console.log('Incoming call...');
-                console.log(data);
                 if (parseInt(data.recipientId) === parseInt(state.currentUser.id)) {
-                    console.log('Joining call...');
                     state.incomingCaller = data.senderDisplayName;
                     state.callIsIncoming = true;
 
                     state.agoraChannelName = data.agoraChannel;
 
-                    // const token = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
-                    //     channel_name: state.agoraChannelName,
-                    // });
+                    commit('setCallConnected', true);
 
-                    const uid = await state.rtc.client.join(
-                        state.agoraAppID,
-                        state.agoraChannelName,
-                        '0069ae7906e6a2443999311cb0baa67d37dIABCPxtYeQWPnVspUWZZYYanrXYm2oUg4ZKvwqrDA1FYrLf8QJ4AAAAAEAAeXT+chkhsYAEAAQCGSGxg',
-                        state.currentUser.id
-                    );
+                    let resp = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
+                        channel_name: state.agoraChannelName,
+                    });
+
+                    commit('setAgoraToken', resp.data.token);
             
-                    dispatch('initializeAudioAndVideoTracks');
+                    dispatch('joinAgoraChannel');
                 }
             });
-        },
-
-        async initializeAudioAndVideoTracks ({commit, state, dispatch}) {
-            [state.rtc.localAudioTrack, state.rtc.localVideoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
-
-            await state.rtc.client.publish([state.rtc.localAudioTrack, state.rtc.localVideoTrack]);
-
-            console.log('Local audio and video published.');
         },
 
         async makeCall({commit, state, dispatch}, recipientId) {
             // state.rtc.client.setClientRole("host");
 
-            // const channelName = `channel${state.currentUser.id}to${recipientId}`;
-            const channelName = 'some-great-channel';
-//             const token = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
-//                 channel_name: channelName,
-//             });
-// console.log(token);
+            state.agoraChannelName = `channel${state.currentUser.id}to${recipientId}`;
+
+            let resp = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
+                channel_name: state.agoraChannelName,
+            });
+
+            commit('setAgoraToken', resp.data.token);
+
             // Broadcasts a call event to the callee.
             await axios.post("/"+ state.agoraRoutePrefix +"/place-call", {
-                channel_name: channelName,
+                channel_name: state.agoraChannelName,
                 recipient_id: recipientId,
             });
             
-            const uid = await state.rtc.client.join(
-                state.agoraAppID,
-                channelName,
-                '0069ae7906e6a2443999311cb0baa67d37dIABCPxtYeQWPnVspUWZZYYanrXYm2oUg4ZKvwqrDA1FYrLf8QJ4AAAAAEAAeXT+chkhsYAEAAQCGSGxg',
-                state.currentUser.id
-            );
-            
-            dispatch('initializeAudioAndVideoTracks');
+            dispatch('joinAgoraChannel');
         },
 
-        async joinAgoraChannel({commit, state, dispatch}, {token, channel}) {
+        async joinAgoraChannel({commit, state, dispatch}) {
+            await state.rtc.client.join(
+                state.agoraAppID,
+                state.agoraChannelName,
+                state.agoraToken,
+                state.currentUser.id
+            );
 
+            [state.rtc.localAudioTrack, state.rtc.localVideoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
+
+            await state.rtc.client.publish([state.rtc.localAudioTrack, state.rtc.localVideoTrack]);
+
+            commit('setTransmitAudio', true);
+            commit('setTransmitVideo', true);
+
+            commit('setCallConnected', true);
         },
 
         async hangUp({commit, state, dispatch}) {
@@ -193,14 +209,33 @@ export default {
             state.rtc.localVideoTrack.close();
 
             // Traverse all remote users.
-            state.rtc.client.remoteUsers.forEach(user => {
-                // Destroy the dynamically created DIV container.
-                const playerContainer = document.getElementById('remote-video');
-                playerContainer && playerContainer.remove();
-            });
+            // state.rtc.client.remoteUsers.forEach(user => {
+            //     const playerContainer = document.getElementById('remote-video');
+            //     playerContainer && playerContainer.remove();
+            // });
 
             // Leave the channel.
             await state.rtc.client.leave();
+        },
+
+        async muteAudio({commit, state}) {
+            await state.rtc.localAudioTrack.setEnabled(false);
+            commit('setTransmitAudio', false);
+        },
+
+        async unmuteAudio({commit, state}) {
+            await state.rtc.localAudioTrack.setEnabled(true);
+            commit('setTransmitAudio', true);
+        },
+
+        async hideVideo({commit, state}) {
+            await state.rtc.localVideoTrack.setEnabled(false);
+            commit('setTransmitVideo', false);
+        },
+
+        async streamVideo({commit, state}) {
+            await state.rtc.localVideoTrack.setEnabled(true);
+            commit('setTransmitVideo', true);
         },
     },
 
