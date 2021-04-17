@@ -2926,6 +2926,38 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "AgoraCallOutgoingAlert",
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)('agora', ['callOutgoing']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue?vue&type=script&lang=js& ***!
@@ -2966,14 +2998,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AgoraIncomingCallAlert",
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)('agora', ['callIsIncoming', 'incomingCaller'])),
-  methods: {
-    acceptCall: function acceptCall() {
-      console.log('Call accepted.');
-    },
-    declineCall: function declineCall() {
-      console.log('Call declined.');
-    }
-  }
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)('agora', ['acceptCall', 'rejectCall']))
 });
 
 /***/ }),
@@ -3098,12 +3123,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _vendor_laravel_agora_api_modules_LaravelAgoraModule__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vendor/laravel-agora-api/modules/LaravelAgoraModule */ "./resources/js/vendor/laravel-agora-api/modules/LaravelAgoraModule.js");
 /* harmony import */ var _vendor_laravel_agora_api_components_AgoraVideoDisplay_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./vendor/laravel-agora-api/components/AgoraVideoDisplay.vue */ "./resources/js/vendor/laravel-agora-api/components/AgoraVideoDisplay.vue");
 /* harmony import */ var _vendor_laravel_agora_api_components_AgoraUserList_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vendor/laravel-agora-api/components/AgoraUserList.vue */ "./resources/js/vendor/laravel-agora-api/components/AgoraUserList.vue");
 /* harmony import */ var _vendor_laravel_agora_api_components_AgoraIncomingCallAlert_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue */ "./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue");
+/* harmony import */ var _vendor_laravel_agora_api_components_AgoraCallOutgoingAlert_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue */ "./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -3112,16 +3138,18 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_4__.default.use(vuex__WEBPACK_IMPORTED_MODULE_5__.default);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_5__.default.Store({
+
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use(vuex__WEBPACK_IMPORTED_MODULE_6__.default);
+var store = new vuex__WEBPACK_IMPORTED_MODULE_6__.default.Store({
   modules: {
     agora: _vendor_laravel_agora_api_modules_LaravelAgoraModule__WEBPACK_IMPORTED_MODULE_0__.default
   }
 });
-vue__WEBPACK_IMPORTED_MODULE_4__.default.component('agora-video-display', _vendor_laravel_agora_api_components_AgoraVideoDisplay_vue__WEBPACK_IMPORTED_MODULE_1__.default);
-vue__WEBPACK_IMPORTED_MODULE_4__.default.component('agora-user-list', _vendor_laravel_agora_api_components_AgoraUserList_vue__WEBPACK_IMPORTED_MODULE_2__.default);
-vue__WEBPACK_IMPORTED_MODULE_4__.default.component('agora-incoming-call-alert', _vendor_laravel_agora_api_components_AgoraIncomingCallAlert_vue__WEBPACK_IMPORTED_MODULE_3__.default);
-var app = new vue__WEBPACK_IMPORTED_MODULE_4__.default({
+vue__WEBPACK_IMPORTED_MODULE_5__.default.component('agora-video-display', _vendor_laravel_agora_api_components_AgoraVideoDisplay_vue__WEBPACK_IMPORTED_MODULE_1__.default);
+vue__WEBPACK_IMPORTED_MODULE_5__.default.component('agora-user-list', _vendor_laravel_agora_api_components_AgoraUserList_vue__WEBPACK_IMPORTED_MODULE_2__.default);
+vue__WEBPACK_IMPORTED_MODULE_5__.default.component('agora-incoming-call-alert', _vendor_laravel_agora_api_components_AgoraIncomingCallAlert_vue__WEBPACK_IMPORTED_MODULE_3__.default);
+vue__WEBPACK_IMPORTED_MODULE_5__.default.component('agora-outgoing-call-alert', _vendor_laravel_agora_api_components_AgoraCallOutgoingAlert_vue__WEBPACK_IMPORTED_MODULE_4__.default);
+var app = new vue__WEBPACK_IMPORTED_MODULE_5__.default({
   el: '#app',
   store: store
 });
@@ -3216,8 +3244,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       agoraClient: null,
       agoraRoutePrefix: '',
       agoraAppID: null,
+      callOutgoing: false,
       callIsIncoming: false,
       incomingCaller: null,
+      incomingCallerId: null,
       callConnected: false,
       stream: null,
       transmitAudio: false,
@@ -3233,6 +3263,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setCurrentUser: function setCurrentUser(state, user) {
       state.currentUser.id = parseInt(user.id);
       state.currentUser.name = user.name;
+    },
+    setActiveUsers: function setActiveUsers(state, users) {
+      state.activeUsers = users;
     },
     setAgoraAppID: function setAgoraAppID(state, id) {
       state.agoraAppID = id;
@@ -3258,17 +3291,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setTransmitVideo: function setTransmitVideo(state, newState) {
       state.transmitVideo = newState;
     },
+    setLocalAudioTrack: function setLocalAudioTrack(state, audioTrack) {
+      state.rtc.localAudioTrack = audioTrack;
+    },
+    setLocalVideoTrack: function setLocalVideoTrack(state, videoTrack) {
+      state.rtc.localVideoTrack = videoTrack;
+    },
+    setCallIsIncoming: function setCallIsIncoming(state, newState) {
+      state.callIsIncoming = newState;
+    },
+    setIncomingCaller: function setIncomingCaller(state, caller) {
+      state.incomingCaller = caller;
+    },
+    setIncomingCallerId: function setIncomingCallerId(state, id) {
+      state.incomingCallerId = id;
+    },
+    setCallOutgoing: function setCallOutgoing(state, newState) {
+      state.callOutgoing = newState;
+    },
     setCallConnected: function setCallConnected(state, newState) {
       state.callConnected = newState;
     }
   },
   actions: {
     initializeAgoraClient: function initializeAgoraClient(_ref) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         var commit, state, dispatch;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 commit = _ref.commit, state = _ref.state, dispatch = _ref.dispatch;
                 state.rtc.client = agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_2___default().createClient({
@@ -3316,187 +3367,156 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   };
                 }()); // Listen for users leaving the call.
 
-                state.rtc.client.on("user-unpublished", function (user) {
-                  // Get the dynamically created DIV container.
-                  var playerContainer = document.getElementById('remote-video'); // Destroy the container.
-                  // playerContainer.remove();
-                  // Need to recreate it in case they make another call.
-                  //
-                });
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    setEchoChannelUserListeners: function setEchoChannelUserListeners(_ref3) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var commit, state, dispatch;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                commit = _ref3.commit, state = _ref3.state, dispatch = _ref3.dispatch;
-                state.echoChannel.here(function (users) {
-                  state.activeUsers = users;
-                });
-                state.echoChannel.joining(function (user) {
-                  var usersIndex = state.activeUsers.findIndex(function (data) {
-                    data.id === user.id;
-                  });
-
-                  if (usersIndex === -1) {
-                    state.activeUsers.push(user);
-                  }
-                });
-                state.echoChannel.leaving(function (user) {
-                  var usersIndex = state.activeUsers.findIndex(function (data) {
-                    data.id === user.id;
-                  });
-                  state.activeUsers.splice(usersIndex, 1);
-                });
-                state.echoChannel.listen(".Tipoff\\LaravelAgoraApi\\Events\\DispatchAgoraCall", /*#__PURE__*/function () {
-                  var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(data) {
-                    var resp;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+                state.rtc.client.on("user-left", /*#__PURE__*/function () {
+                  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(user) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
                       while (1) {
-                        switch (_context3.prev = _context3.next) {
+                        switch (_context2.prev = _context2.next) {
                           case 0:
-                            if (!(parseInt(data.recipientId) === parseInt(state.currentUser.id))) {
-                              _context3.next = 10;
-                              break;
-                            }
+                            _context2.next = 2;
+                            return dispatch('leaveAgoraChannel');
 
-                            state.incomingCaller = data.senderDisplayName;
-                            state.callIsIncoming = true;
-                            state.agoraChannelName = data.agoraChannel;
-                            commit('setCallConnected', true);
-                            _context3.next = 7;
-                            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/retrieve-token", {
-                              channel_name: state.agoraChannelName
-                            });
+                          case 2:
+                            commit('setCallConnected', false);
 
-                          case 7:
-                            resp = _context3.sent;
-                            commit('setAgoraToken', resp.data.token);
-                            dispatch('joinAgoraChannel');
-
-                          case 10:
+                          case 3:
                           case "end":
-                            return _context3.stop();
+                            return _context2.stop();
                         }
                       }
-                    }, _callee3);
+                    }, _callee2);
                   }));
 
                   return function (_x3) {
-                    return _ref4.apply(this, arguments);
+                    return _ref3.apply(this, arguments);
                   };
                 }());
 
-              case 5:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    makeCall: function makeCall(_ref5, recipientId) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        var commit, state, dispatch, resp;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                commit = _ref5.commit, state = _ref5.state, dispatch = _ref5.dispatch;
-                // state.rtc.client.setClientRole("host");
-                state.agoraChannelName = "channel".concat(state.currentUser.id, "to").concat(recipientId);
-                _context5.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/retrieve-token", {
-                  channel_name: state.agoraChannelName
-                });
-
               case 4:
-                resp = _context5.sent;
-                commit('setAgoraToken', resp.data.token); // Broadcasts a call event to the callee.
-
-                _context5.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/place-call", {
-                  channel_name: state.agoraChannelName,
-                  recipient_id: recipientId
-                });
-
-              case 8:
-                dispatch('joinAgoraChannel');
-
-              case 9:
               case "end":
-                return _context5.stop();
+                return _context3.stop();
             }
           }
-        }, _callee5);
+        }, _callee3);
       }))();
     },
-    joinAgoraChannel: function joinAgoraChannel(_ref6) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        var commit, state, dispatch, _yield$AgoraRTC$creat, _yield$AgoraRTC$creat2;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                commit = _ref6.commit, state = _ref6.state, dispatch = _ref6.dispatch;
-                _context6.next = 3;
-                return state.rtc.client.join(state.agoraAppID, state.agoraChannelName, state.agoraToken, state.currentUser.id);
-
-              case 3:
-                _context6.next = 5;
-                return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_2___default().createMicrophoneAndCameraTracks();
-
-              case 5:
-                _yield$AgoraRTC$creat = _context6.sent;
-                _yield$AgoraRTC$creat2 = _slicedToArray(_yield$AgoraRTC$creat, 2);
-                state.rtc.localAudioTrack = _yield$AgoraRTC$creat2[0];
-                state.rtc.localVideoTrack = _yield$AgoraRTC$creat2[1];
-                _context6.next = 11;
-                return state.rtc.client.publish([state.rtc.localAudioTrack, state.rtc.localVideoTrack]);
-
-              case 11:
-                commit('setTransmitAudio', true);
-                commit('setTransmitVideo', true);
-                commit('setCallConnected', true);
-
-              case 14:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
-    hangUp: function hangUp(_ref7) {
+    setEchoChannelUserListeners: function setEchoChannelUserListeners(_ref4) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
         var commit, state, dispatch;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                commit = _ref7.commit, state = _ref7.state, dispatch = _ref7.dispatch;
-                // Destroy the local audio and video tracks.
-                state.rtc.localAudioTrack.close();
-                state.rtc.localVideoTrack.close(); // Traverse all remote users.
-                // state.rtc.client.remoteUsers.forEach(user => {
-                //     const playerContainer = document.getElementById('remote-video');
-                //     playerContainer && playerContainer.remove();
-                // });
-                // Leave the channel.
+                commit = _ref4.commit, state = _ref4.state, dispatch = _ref4.dispatch;
+                state.echoChannel.here(function (users) {
+                  commit('setActiveUsers', users);
+                });
+                state.echoChannel.joining(function (user) {
+                  var newActiveUsers = state.activeUsers.slice();
+                  var usersIndex = newActiveUsers.findIndex(function (data) {
+                    data.id === user.id;
+                  });
 
-                _context7.next = 5;
-                return state.rtc.client.leave();
+                  if (usersIndex === -1) {
+                    newActiveUsers.push(user);
+                    commit('setActiveUsers', newActiveUsers);
+                  }
+                });
+                state.echoChannel.leaving(function (user) {
+                  var newActiveUsers = state.activeUsers.slice();
+                  var usersIndex = newActiveUsers.findIndex(function (data) {
+                    data.id === user.id;
+                  });
+                  newActiveUsers.splice(usersIndex, 1);
+                  commit('setActiveUsers', newActiveUsers);
+                });
+                state.echoChannel.listen(".Tipoff\\LaravelAgoraApi\\Events\\DispatchAgoraCall", /*#__PURE__*/function () {
+                  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(data) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            if (parseInt(data.recipientId) === parseInt(state.currentUser.id)) {
+                              commit('setIncomingCaller', data.senderDisplayName);
+                              commit('setIncomingCallerId', data.senderId);
+                              commit('setCallIsIncoming', true); // TODO: If they do not respond within a certain amount of time,
+                              // auto-reject the call. (Including dispatching the rejected/not
+                              // answered event.) await dispatch('rejectIncomingCall');
+                              // TODO: If they do accept the call, hang up on any other calls that they are
+                              // involved in first before connecting to the incoming one.
+
+                              commit('setAgoraChannel', data.agoraChannel);
+                            }
+
+                          case 1:
+                          case "end":
+                            return _context4.stop();
+                        }
+                      }
+                    }, _callee4);
+                  }));
+
+                  return function (_x4) {
+                    return _ref5.apply(this, arguments);
+                  };
+                }()).listen(".Tipoff\\LaravelAgoraApi\\Events\\RejectAgoraCall", /*#__PURE__*/function () {
+                  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(data) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+                      while (1) {
+                        switch (_context5.prev = _context5.next) {
+                          case 0:
+                            if (!(parseInt(data.callerId) === parseInt(state.currentUser.id))) {
+                              _context5.next = 7;
+                              break;
+                            }
+
+                            console.log("Call rejected.");
+                            _context5.next = 4;
+                            return dispatch('leaveAgoraChannel');
+
+                          case 4:
+                            commit('setAgoraChannel', '');
+                            commit('setCallOutgoing', false);
+                            commit('setCallConnected', false);
+
+                          case 7:
+                          case "end":
+                            return _context5.stop();
+                        }
+                      }
+                    }, _callee5);
+                  }));
+
+                  return function (_x5) {
+                    return _ref6.apply(this, arguments);
+                  };
+                }()).listen(".Tipoff\\LaravelAgoraApi\\Events\\AgoraCallAccepted", /*#__PURE__*/function () {
+                  var _ref7 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6(data) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+                      while (1) {
+                        switch (_context6.prev = _context6.next) {
+                          case 0:
+                            if (parseInt(data.callerId) === parseInt(state.currentUser.id)) {
+                              console.log("Call accepted.");
+                              commit('setCallOutgoing', false);
+                              commit('setCallConnected', true); // Do the actual joining of the Agora channel here, after
+                              // the call has been accepted.
+
+                              dispatch('joinAgoraChannel');
+                            }
+
+                          case 1:
+                          case "end":
+                            return _context6.stop();
+                        }
+                      }
+                    }, _callee6);
+                  }));
+
+                  return function (_x6) {
+                    return _ref7.apply(this, arguments);
+                  };
+                }());
 
               case 5:
               case "end":
@@ -3506,21 +3526,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee7);
       }))();
     },
-    muteAudio: function muteAudio(_ref8) {
+    makeCall: function makeCall(_ref8, recipientId) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
-        var commit, state;
+        var commit, state, dispatch;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                commit = _ref8.commit, state = _ref8.state;
-                _context8.next = 3;
-                return state.rtc.localAudioTrack.setEnabled(false);
+                commit = _ref8.commit, state = _ref8.state, dispatch = _ref8.dispatch;
+                // state.rtc.client.setClientRole("host");
+                commit('setCallOutgoing', true);
+                commit('setAgoraChannel', 'ac' + Math.floor(Math.random() * (99999999999 - 1111111111 + 1)) + 1111111111);
+                _context8.next = 5;
+                return dispatch('fetchAgoraToken');
 
-              case 3:
-                commit('setTransmitAudio', false);
+              case 5:
+                _context8.next = 7;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/place-call", {
+                  channel_name: state.agoraChannelName,
+                  recipient_id: recipientId
+                });
 
-              case 4:
+              case 7:
               case "end":
                 return _context8.stop();
             }
@@ -3528,21 +3555,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee8);
       }))();
     },
-    unmuteAudio: function unmuteAudio(_ref9) {
+    acceptCall: function acceptCall(_ref9) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
-        var commit, state;
+        var commit, state, dispatch;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                commit = _ref9.commit, state = _ref9.state;
-                _context9.next = 3;
-                return state.rtc.localAudioTrack.setEnabled(true);
+                commit = _ref9.commit, state = _ref9.state, dispatch = _ref9.dispatch;
+                commit('setCallIsIncoming', false);
+                commit('setCallConnected', true); // Send acceptance event.
 
-              case 3:
-                commit('setTransmitAudio', true);
+                _context9.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/accept-call", {
+                  caller_id: state.incomingCallerId,
+                  recipient_id: state.currentUser.id
+                });
 
-              case 4:
+              case 5:
+                _context9.next = 7;
+                return dispatch('fetchAgoraToken');
+
+              case 7:
+                _context9.next = 9;
+                return dispatch('joinAgoraChannel');
+
+              case 9:
               case "end":
                 return _context9.stop();
             }
@@ -3550,21 +3588,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee9);
       }))();
     },
-    hideVideo: function hideVideo(_ref10) {
+    rejectCall: function rejectCall(_ref10) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
-        var commit, state;
+        var commit, state, dispatch;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                commit = _ref10.commit, state = _ref10.state;
-                _context10.next = 3;
-                return state.rtc.localVideoTrack.setEnabled(false);
+                commit = _ref10.commit, state = _ref10.state, dispatch = _ref10.dispatch;
+                commit('setIncomingCaller', null);
+                commit('setCallIsIncoming', false);
+                commit('setAgoraChannel', ''); // Send rejection event.
 
-              case 3:
-                commit('setTransmitVideo', false);
+                _context10.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/reject-call", {
+                  caller_id: state.incomingCallerId,
+                  recipient_id: state.currentUser.id
+                });
 
-              case 4:
+              case 6:
+                commit('setIncomingCallerId', null);
+
+              case 7:
               case "end":
                 return _context10.stop();
             }
@@ -3572,15 +3617,199 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee10);
       }))();
     },
-    streamVideo: function streamVideo(_ref11) {
+    fetchAgoraToken: function fetchAgoraToken(_ref11) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
-        var commit, state;
+        var commit, state, resp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
                 commit = _ref11.commit, state = _ref11.state;
                 _context11.next = 3;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/" + state.agoraRoutePrefix + "/retrieve-token", {
+                  channel_name: state.agoraChannelName
+                });
+
+              case 3:
+                resp = _context11.sent;
+                commit('setAgoraToken', resp.data.token);
+
+              case 5:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
+      }))();
+    },
+    joinAgoraChannel: function joinAgoraChannel(_ref12) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+        var commit, state, _yield$AgoraRTC$creat, _yield$AgoraRTC$creat2, localAudio, localVideo;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                commit = _ref12.commit, state = _ref12.state;
+                _context12.next = 3;
+                return state.rtc.client.join(state.agoraAppID, state.agoraChannelName, state.agoraToken, state.currentUser.id);
+
+              case 3:
+                _context12.next = 5;
+                return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_2___default().createMicrophoneAndCameraTracks();
+
+              case 5:
+                _yield$AgoraRTC$creat = _context12.sent;
+                _yield$AgoraRTC$creat2 = _slicedToArray(_yield$AgoraRTC$creat, 2);
+                localAudio = _yield$AgoraRTC$creat2[0];
+                localVideo = _yield$AgoraRTC$creat2[1];
+                commit('setLocalAudioTrack', localAudio);
+                commit('setLocalVideoTrack', localVideo);
+                _context12.next = 13;
+                return state.rtc.client.publish([state.rtc.localAudioTrack, state.rtc.localVideoTrack]);
+
+              case 13:
+                commit('setTransmitAudio', true);
+                commit('setTransmitVideo', true);
+                commit('setCallIsIncoming', false);
+                commit('setCallConnected', true);
+
+              case 17:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
+    },
+    leaveAgoraChannel: function leaveAgoraChannel(_ref13) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                commit = _ref13.commit, state = _ref13.state;
+
+                // Destroy the local audio and video tracks.
+                if (state.rtc.localAudioTrack !== null) {
+                  state.rtc.localAudioTrack.close();
+                  commit('setLocalAudioTrack', null);
+                }
+
+                if (state.rtc.localVideoTrack !== null) {
+                  state.rtc.localVideoTrack.close();
+                  commit('setLocalVideoTrack', null);
+                }
+
+                _context13.next = 5;
+                return state.rtc.client.leave();
+
+              case 5:
+              case "end":
+                return _context13.stop();
+            }
+          }
+        }, _callee13);
+      }))();
+    },
+    hangUp: function hangUp(_ref14) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
+        var commit, state, dispatch;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                commit = _ref14.commit, state = _ref14.state, dispatch = _ref14.dispatch;
+                _context14.next = 3;
+                return dispatch('leaveAgoraChannel');
+
+              case 3:
+                commit('setCallConnected', false);
+
+              case 4:
+              case "end":
+                return _context14.stop();
+            }
+          }
+        }, _callee14);
+      }))();
+    },
+    muteAudio: function muteAudio(_ref15) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee15() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee15$(_context15) {
+          while (1) {
+            switch (_context15.prev = _context15.next) {
+              case 0:
+                commit = _ref15.commit, state = _ref15.state;
+                _context15.next = 3;
+                return state.rtc.localAudioTrack.setEnabled(false);
+
+              case 3:
+                commit('setTransmitAudio', false);
+
+              case 4:
+              case "end":
+                return _context15.stop();
+            }
+          }
+        }, _callee15);
+      }))();
+    },
+    unmuteAudio: function unmuteAudio(_ref16) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee16() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee16$(_context16) {
+          while (1) {
+            switch (_context16.prev = _context16.next) {
+              case 0:
+                commit = _ref16.commit, state = _ref16.state;
+                _context16.next = 3;
+                return state.rtc.localAudioTrack.setEnabled(true);
+
+              case 3:
+                commit('setTransmitAudio', true);
+
+              case 4:
+              case "end":
+                return _context16.stop();
+            }
+          }
+        }, _callee16);
+      }))();
+    },
+    hideVideo: function hideVideo(_ref17) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee17() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee17$(_context17) {
+          while (1) {
+            switch (_context17.prev = _context17.next) {
+              case 0:
+                commit = _ref17.commit, state = _ref17.state;
+                _context17.next = 3;
+                return state.rtc.localVideoTrack.setEnabled(false);
+
+              case 3:
+                commit('setTransmitVideo', false);
+
+              case 4:
+              case "end":
+                return _context17.stop();
+            }
+          }
+        }, _callee17);
+      }))();
+    },
+    streamVideo: function streamVideo(_ref18) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee18() {
+        var commit, state;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee18$(_context18) {
+          while (1) {
+            switch (_context18.prev = _context18.next) {
+              case 0:
+                commit = _ref18.commit, state = _ref18.state;
+                _context18.next = 3;
                 return state.rtc.localVideoTrack.setEnabled(true);
 
               case 3:
@@ -3588,10 +3817,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
               case "end":
-                return _context11.stop();
+                return _context18.stop();
             }
           }
-        }, _callee11);
+        }, _callee18);
       }))();
     }
   },
@@ -27895,6 +28124,45 @@ try {
 
 /***/ }),
 
+/***/ "./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AgoraCallOutgoingAlert_vue_vue_type_template_id_1de0528c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true& */ "./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true&");
+/* harmony import */ var _AgoraCallOutgoingAlert_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AgoraCallOutgoingAlert.vue?vue&type=script&lang=js& */ "./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _AgoraCallOutgoingAlert_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _AgoraCallOutgoingAlert_vue_vue_type_template_id_1de0528c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _AgoraCallOutgoingAlert_vue_vue_type_template_id_1de0528c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "1de0528c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue":
 /*!*************************************************************************************!*\
   !*** ./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue ***!
@@ -28012,6 +28280,22 @@ component.options.__file = "resources/js/vendor/laravel-agora-api/components/Ago
 
 /***/ }),
 
+/***/ "./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgoraCallOutgoingAlert_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgoraCallOutgoingAlert.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgoraCallOutgoingAlert_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************!*\
   !*** ./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue?vue&type=script&lang=js& ***!
@@ -28057,6 +28341,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgoraVideoDisplay_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgoraVideoDisplay.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraVideoDisplay.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgoraVideoDisplay_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true&":
+/*!********************************************************************************************************************************!*\
+  !*** ./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true& ***!
+  \********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AgoraCallOutgoingAlert_vue_vue_type_template_id_1de0528c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AgoraCallOutgoingAlert_vue_vue_type_template_id_1de0528c_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AgoraCallOutgoingAlert_vue_vue_type_template_id_1de0528c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true&");
+
 
 /***/ }),
 
@@ -28111,6 +28412,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraCallOutgoingAlert.vue?vue&type=template&id=1de0528c&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.callOutgoing
+    ? _c("div", { staticClass: "outgoing-call-alert" }, [
+        _c("p", [_vm._v("Call in progress...")])
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue?vue&type=template&id=64e6d412&scoped=true&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/vendor/laravel-agora-api/components/AgoraIncomingCallAlert.vue?vue&type=template&id=64e6d412&scoped=true& ***!
@@ -28148,7 +28478,7 @@ var render = function() {
               "button",
               {
                 staticClass: "agora-btn agora-btn-danger agora-btn-decline",
-                on: { click: _vm.declineCall }
+                on: { click: _vm.rejectCall }
               },
               [_vm._v("\n                Decline\n            ")]
             )

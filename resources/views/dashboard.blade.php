@@ -13,7 +13,6 @@
                     <div id="app">
                         <div class="flex flex-wrap overflow-hidden">
                             <div class="w-3/4 overflow-hidden">
-                                <h1>Video</h1>
                                 <agora-video-display
                                     current-user-id="{{ Auth::id() }}"
                                     current-user-name="{{ \Tipoff\LaravelAgoraApi\Services\DisplayNameService::getDisplayName(Auth::user()) }}"
@@ -24,6 +23,7 @@
                             </div>
                             <div class="w-1/4 overflow-hidden">
                                 <agora-incoming-call-alert></agora-incoming-call-alert>
+                                <agora-outgoing-call-alert></agora-outgoing-call-alert>
                                 <agora-user-list></agora-user-list>
                             </div>
                         </div>

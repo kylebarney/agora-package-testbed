@@ -21,8 +21,11 @@ export default {
         agoraRoutePrefix: '',
         agoraAppID: null,
 
+        callOutgoing: false,
+
         callIsIncoming: false,
         incomingCaller: null,
+        incomingCallerId: null,
         callConnected: false,
 
         stream: null,
@@ -43,6 +46,10 @@ export default {
         setCurrentUser (state, user) {
             state.currentUser.id = parseInt(user.id);
             state.currentUser.name = user.name;
+        },
+
+        setActiveUsers(state, users) {
+            state.activeUsers = users;
         },
 
         setAgoraAppID (state, id) {
@@ -75,6 +82,30 @@ export default {
 
         setTransmitVideo(state, newState) {
             state.transmitVideo = newState;
+        },
+
+        setLocalAudioTrack(state, audioTrack) {
+            state.rtc.localAudioTrack = audioTrack;
+        },
+
+        setLocalVideoTrack(state, videoTrack) {
+            state.rtc.localVideoTrack = videoTrack;
+        },
+
+        setCallIsIncoming(state, newState) {
+            state.callIsIncoming = newState;
+        },
+
+        setIncomingCaller(state, caller) {
+            state.incomingCaller = caller;
+        },
+
+        setIncomingCallerId(state, id) {
+            state.incomingCallerId = id;
+        },
+
+        setCallOutgoing(state, newState) {
+            state.callOutgoing = newState;
         },
 
         setCallConnected(state, newState) {
@@ -110,56 +141,78 @@ export default {
             });
 
             // Listen for users leaving the call.
-            state.rtc.client.on("user-unpublished", user => {
-                // Get the dynamically created DIV container.
-                const playerContainer = document.getElementById('remote-video');
-                // Destroy the container.
-                // playerContainer.remove();
+            state.rtc.client.on("user-left", async user => {
+                await dispatch('leaveAgoraChannel');
 
-                // Need to recreate it in case they make another call.
-                //
-
+                commit('setCallConnected', false);
             });
         },
 
         async setEchoChannelUserListeners({commit, state, dispatch}) {
             state.echoChannel.here((users) => {
-                state.activeUsers = users;
+                commit('setActiveUsers', users);
             });
 
             state.echoChannel.joining((user) => {
-                let usersIndex = state.activeUsers.findIndex((data) => {
+                let newActiveUsers = state.activeUsers.slice();
+
+                let usersIndex = newActiveUsers.findIndex((data) => {
                     data.id === user.id;
                 });
 
                 if (usersIndex === -1) {
-                    state.activeUsers.push(user);
+                    newActiveUsers.push(user);
+                    commit('setActiveUsers', newActiveUsers);
                 }
             });
 
             state.echoChannel.leaving((user) => {
-                let usersIndex = state.activeUsers.findIndex((data) => {
+                let newActiveUsers = state.activeUsers.slice();
+
+                let usersIndex = newActiveUsers.findIndex((data) => {
                     data.id === user.id;
                 });
 
-                state.activeUsers.splice(usersIndex, 1);
+                newActiveUsers.splice(usersIndex, 1);
+
+                commit('setActiveUsers', newActiveUsers);
             });
 
             state.echoChannel.listen(".Tipoff\\LaravelAgoraApi\\Events\\DispatchAgoraCall", async (data) => {
                 if (parseInt(data.recipientId) === parseInt(state.currentUser.id)) {
-                    state.incomingCaller = data.senderDisplayName;
-                    state.callIsIncoming = true;
+                    commit('setIncomingCaller', data.senderDisplayName);
+                    commit('setIncomingCallerId', data.senderId);
+                    commit('setCallIsIncoming', true);
 
-                    state.agoraChannelName = data.agoraChannel;
+                    // TODO: If they do not respond within a certain amount of time,
+                    // auto-reject the call. (Including dispatching the rejected/not
+                    // answered event.) await dispatch('rejectIncomingCall');
 
+                    // TODO: If they do accept the call, hang up on any other calls that they are
+                    // involved in first before connecting to the incoming one.
+                    
+                    commit('setAgoraChannel', data.agoraChannel);
+                }
+            })
+            .listen(".Tipoff\\LaravelAgoraApi\\Events\\RejectAgoraCall", async (data) => {
+                if (parseInt(data.callerId) === parseInt(state.currentUser.id)) {
+                    console.log("Call rejected.");
+                    
+                    await dispatch('leaveAgoraChannel');
+                    commit('setAgoraChannel', '');
+                    commit('setCallOutgoing', false);
+                    commit('setCallConnected', false);
+                }
+            })
+            .listen(".Tipoff\\LaravelAgoraApi\\Events\\AgoraCallAccepted", async (data) => {
+                if (parseInt(data.callerId) === parseInt(state.currentUser.id)) {
+                    console.log("Call accepted.");
+
+                    commit('setCallOutgoing', false);
                     commit('setCallConnected', true);
 
-                    let resp = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
-                        channel_name: state.agoraChannelName,
-                    });
-
-                    commit('setAgoraToken', resp.data.token);
-            
+                    // Do the actual joining of the Agora channel here, after
+                    // the call has been accepted.
                     dispatch('joinAgoraChannel');
                 }
             });
@@ -167,25 +220,56 @@ export default {
 
         async makeCall({commit, state, dispatch}, recipientId) {
             // state.rtc.client.setClientRole("host");
+            commit('setCallOutgoing', true);
 
-            state.agoraChannelName = `channel${state.currentUser.id}to${recipientId}`;
+            commit('setAgoraChannel', 'ac' + Math.floor(Math.random() * (99999999999 - 1111111111 + 1)) + 1111111111);
 
-            let resp = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
-                channel_name: state.agoraChannelName,
-            });
-
-            commit('setAgoraToken', resp.data.token);
+            await dispatch('fetchAgoraToken');
 
             // Broadcasts a call event to the callee.
             await axios.post("/"+ state.agoraRoutePrefix +"/place-call", {
                 channel_name: state.agoraChannelName,
                 recipient_id: recipientId,
             });
-            
-            dispatch('joinAgoraChannel');
         },
 
-        async joinAgoraChannel({commit, state, dispatch}) {
+        async acceptCall({commit, state, dispatch}) {
+            commit('setCallIsIncoming', false);
+            commit('setCallConnected', true);
+
+            // Send acceptance event.
+            await axios.post("/"+ state.agoraRoutePrefix +"/accept-call", {
+                caller_id: state.incomingCallerId,
+                recipient_id: state.currentUser.id,
+            });
+
+            await dispatch('fetchAgoraToken');
+            await dispatch('joinAgoraChannel');
+        },
+
+        async rejectCall({commit, state, dispatch}) {
+            commit('setIncomingCaller', null);
+            commit('setCallIsIncoming', false);
+            commit('setAgoraChannel', '');
+
+            // Send rejection event.
+            await axios.post("/"+ state.agoraRoutePrefix +"/reject-call", {
+                caller_id: state.incomingCallerId,
+                recipient_id: state.currentUser.id,
+            });
+
+            commit('setIncomingCallerId', null);
+        },
+
+        async fetchAgoraToken({commit, state}) {
+            let resp = await axios.post("/"+ state.agoraRoutePrefix +"/retrieve-token", {
+                channel_name: state.agoraChannelName,
+            });
+
+            commit('setAgoraToken', resp.data.token);
+        },
+
+        async joinAgoraChannel({commit, state}) {
             await state.rtc.client.join(
                 state.agoraAppID,
                 state.agoraChannelName,
@@ -193,29 +277,39 @@ export default {
                 state.currentUser.id
             );
 
-            [state.rtc.localAudioTrack, state.rtc.localVideoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks();
+            let [localAudio, localVideo] = await AgoraRTC.createMicrophoneAndCameraTracks();
+
+            commit('setLocalAudioTrack', localAudio);
+            commit('setLocalVideoTrack', localVideo);
 
             await state.rtc.client.publish([state.rtc.localAudioTrack, state.rtc.localVideoTrack]);
 
             commit('setTransmitAudio', true);
             commit('setTransmitVideo', true);
 
+            commit('setCallIsIncoming', false);
             commit('setCallConnected', true);
         },
 
-        async hangUp({commit, state, dispatch}) {
+        async leaveAgoraChannel({commit, state}) {
             // Destroy the local audio and video tracks.
-            state.rtc.localAudioTrack.close();
-            state.rtc.localVideoTrack.close();
+            if (state.rtc.localAudioTrack !== null) {
+                state.rtc.localAudioTrack.close();
+                commit('setLocalAudioTrack', null);
+            }
+            
+            if (state.rtc.localVideoTrack !== null) {
+                state.rtc.localVideoTrack.close();
+                commit('setLocalVideoTrack', null);
+            }
 
-            // Traverse all remote users.
-            // state.rtc.client.remoteUsers.forEach(user => {
-            //     const playerContainer = document.getElementById('remote-video');
-            //     playerContainer && playerContainer.remove();
-            // });
-
-            // Leave the channel.
             await state.rtc.client.leave();
+        },
+
+        async hangUp({commit, state, dispatch}) {
+            await dispatch('leaveAgoraChannel');
+
+            commit('setCallConnected', false);
         },
 
         async muteAudio({commit, state}) {
